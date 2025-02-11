@@ -1,11 +1,10 @@
 import { Colors } from "@/constants/Colors";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import * as Haptics from "expo-haptics";
+import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { toast } from "sonner-native";
-import * as Haptics from "expo-haptics";
-import { useRouter } from "expo-router";
 const Fab = () => {
 	const router = useRouter();
 	const onPress = () => {

@@ -14,7 +14,7 @@ const Layout = () => {
 						fontSize: 36,
 						fontWeight: "bold",
 					},
-					headerRight: () => <MoreButton />,
+					headerRight: () => <MoreButton pageName="Today" />,
 				}}
 			/>
 		</Stack>
