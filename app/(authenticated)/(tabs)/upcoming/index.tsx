@@ -1,12 +1,21 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import Fab from "@/components/Fab";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 const Page = () => {
-  return (
-    <View>
-      <Text>Page</Text>
-    </View>
-  )
-}
+	return (
+		<>
+			<View style={styles.container}>
+				<Text>Page</Text>
+			</View>
+			<Fab />
+		</>
+	);
+};
+const styles = StyleSheet.create({
+	container: {
+		flexGrow: 1,
+	},
+});
 
-export default Page
+export default Page;
