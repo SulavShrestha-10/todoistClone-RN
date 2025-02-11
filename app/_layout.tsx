@@ -2,9 +2,11 @@ import { Colors } from "@/constants/Colors";
 import { tokenCache } from "@/utils/cache";
 import { ClerkLoaded, ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { Stack, useRouter, useSegments } from "expo-router";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SQLiteProvider } from "expo-sqlite";
+
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 import { Toaster } from "sonner-native";
 if (!publishableKey) {
@@ -27,7 +29,7 @@ const InitialLayout = () => {
 	if (!isLoaded) {
 		return (
 			<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-				<ActivityIndicator />
+				<ActivityIndicator size="large" color={Colors.primary} />
 			</View>
 		);
 	}
@@ -42,13 +44,23 @@ const RootLayout = () => {
 	return (
 		<ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
 			<ClerkLoaded>
-				<GestureHandlerRootView style={{ flex: 1 }}>
-					<InitialLayout />
-					<Toaster duration={2000} theme="light" />
-				</GestureHandlerRootView>
+				<Suspense fallback={<Loading />}>
+					<SQLiteProvider databaseName="todos" useSuspense>
+						<GestureHandlerRootView style={{ flex: 1 }}>
+							<InitialLayout />
+							<Toaster duration={2000} theme="light" />
+						</GestureHandlerRootView>
+					</SQLiteProvider>
+				</Suspense>
 			</ClerkLoaded>
 		</ClerkProvider>
 	);
 };
-
+function Loading() {
+	return (
+		<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+			<ActivityIndicator size="large" color={Colors.primary} />
+		</View>
+	);
+}
 export default RootLayout;
