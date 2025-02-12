@@ -12,6 +12,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { addDummyData } from "@/utils/addDummyData";
 import { Toaster } from "sonner-native";
+import { ColorProvider } from "@/context/ColorContext";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 if (!publishableKey) {
@@ -62,10 +63,12 @@ const RootLayout = () => {
 			<ClerkLoaded>
 				<Suspense fallback={<Loading />}>
 					<SQLiteProvider databaseName="todos" useSuspense options={{ enableChangeListener: true }}>
-						<GestureHandlerRootView style={{ flex: 1 }}>
-							<InitialLayout />
-							<Toaster duration={2000} theme="light" />
-						</GestureHandlerRootView>
+						<ColorProvider>
+							<GestureHandlerRootView style={{ flex: 1 }}>
+								<InitialLayout />
+								<Toaster duration={2000} theme="light" />
+							</GestureHandlerRootView>
+						</ColorProvider>
 					</SQLiteProvider>
 				</Suspense>
 			</ClerkLoaded>
